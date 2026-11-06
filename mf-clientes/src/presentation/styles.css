@@ -1,0 +1,58 @@
+/*
+ * Tailwind v4 aislado para el micro:
+ * - prefijo `mfc:` en todas las utilidades y variables de tema (--mfc-*), sin colisiones con la shell u otros micros.
+ * - sin preflight: el reset global es responsabilidad de la shell; aquí sólo un reset acotado a `.mfc`.
+ */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme) prefix(mfc);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(mfc);
+
+@layer base {
+  .mfc,
+  .mfc *,
+  .mfc *::before,
+  .mfc *::after {
+    box-sizing: border-box;
+    border: 0 solid;
+  }
+  .mfc :where(h2, h3, p) {
+    margin: 0;
+  }
+  .mfc :where(button, input, select) {
+    font: inherit;
+    color: inherit;
+  }
+  .mfc :where(button:not(:disabled)) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .mfc-card {
+    @apply mfc:rounded-2xl mfc:bg-white mfc:shadow-sm mfc:ring-1 mfc:ring-slate-200 mfc:dark:bg-slate-900 mfc:dark:ring-white/10;
+  }
+  .mfc-btn {
+    @apply mfc:inline-flex mfc:items-center mfc:justify-center mfc:gap-1.5 mfc:rounded-lg mfc:px-3 mfc:py-2 mfc:text-sm mfc:font-medium mfc:whitespace-nowrap mfc:transition mfc:focus-visible:outline-2 mfc:focus-visible:outline-offset-2 mfc:focus-visible:outline-indigo-500 mfc:disabled:cursor-not-allowed mfc:disabled:opacity-50;
+  }
+  .mfc-btn-sm {
+    @apply mfc:px-2.5 mfc:py-1.5 mfc:text-xs;
+  }
+  .mfc-btn-primary {
+    @apply mfc:bg-indigo-600 mfc:text-white mfc:shadow-sm mfc:hover:bg-indigo-500;
+  }
+  .mfc-btn-ghost {
+    @apply mfc:bg-white mfc:text-slate-700 mfc:ring-1 mfc:ring-slate-200 mfc:hover:bg-slate-50 mfc:dark:bg-white/5 mfc:dark:text-slate-200 mfc:dark:ring-white/10 mfc:dark:hover:bg-white/10;
+  }
+  .mfc-btn-danger {
+    @apply mfc:bg-rose-600 mfc:text-white mfc:hover:bg-rose-500;
+  }
+  .mfc-label {
+    @apply mfc:text-xs mfc:font-medium mfc:text-slate-600 mfc:dark:text-slate-400;
+  }
+  .mfc-input {
+    @apply mfc:block mfc:w-full mfc:rounded-lg mfc:bg-white mfc:px-3 mfc:py-2 mfc:text-sm mfc:ring-1 mfc:ring-slate-300 mfc:transition mfc:placeholder:text-slate-400 mfc:dark:placeholder:text-slate-500 mfc:focus:ring-2 mfc:focus:ring-indigo-500 mfc:focus:outline-none mfc:dark:bg-slate-950/50 mfc:dark:ring-white/15;
+  }
+  .mfc-input[aria-invalid='true'] {
+    @apply mfc:ring-rose-500 mfc:focus:ring-rose-500;
+  }
+}

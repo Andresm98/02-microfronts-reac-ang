@@ -1,0 +1,58 @@
+/*
+ * Tailwind v4 aislado para el micro:
+ * - prefijo `mfv:` en todas las utilidades y variables de tema (--mfv-*), sin colisiones con la shell u otros micros.
+ * - sin preflight: el reset global es responsabilidad de la shell; aquí sólo un reset acotado a `.mfv`.
+ */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme) prefix(mfv);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(mfv);
+
+@layer base {
+  .mfv,
+  .mfv *,
+  .mfv *::before,
+  .mfv *::after {
+    box-sizing: border-box;
+    border: 0 solid;
+  }
+  .mfv :where(h2, h3, p) {
+    margin: 0;
+  }
+  .mfv :where(button, input, select) {
+    font: inherit;
+    color: inherit;
+  }
+  .mfv :where(button:not(:disabled)) {
+    cursor: pointer;
+  }
+  .mfv :where(input[type='number']) {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .mfv-card {
+    @apply mfv:rounded-2xl mfv:bg-white mfv:shadow-sm mfv:ring-1 mfv:ring-slate-200 mfv:dark:bg-slate-900 mfv:dark:ring-white/10;
+  }
+  .mfv-btn {
+    @apply mfv:inline-flex mfv:items-center mfv:justify-center mfv:gap-1.5 mfv:rounded-lg mfv:px-3 mfv:py-2 mfv:text-sm mfv:font-medium mfv:whitespace-nowrap mfv:transition mfv:focus-visible:outline-2 mfv:focus-visible:outline-offset-2 mfv:focus-visible:outline-indigo-500 mfv:disabled:cursor-not-allowed mfv:disabled:opacity-50;
+  }
+  .mfv-btn-primary {
+    @apply mfv:bg-indigo-600 mfv:text-white mfv:shadow-sm mfv:hover:bg-indigo-500;
+  }
+  .mfv-btn-ghost {
+    @apply mfv:bg-white mfv:text-slate-700 mfv:ring-1 mfv:ring-slate-200 mfv:hover:bg-slate-50 mfv:dark:bg-white/5 mfv:dark:text-slate-200 mfv:dark:ring-white/10 mfv:dark:hover:bg-white/10;
+  }
+  .mfv-label {
+    @apply mfv:text-xs mfv:font-medium mfv:text-slate-600 mfv:dark:text-slate-400;
+  }
+  .mfv-input {
+    @apply mfv:block mfv:w-full mfv:min-w-0 mfv:rounded-lg mfv:bg-white mfv:px-3 mfv:py-2 mfv:text-sm mfv:ring-1 mfv:ring-slate-300 mfv:transition mfv:placeholder:text-slate-400 mfv:dark:placeholder:text-slate-500 mfv:focus:ring-2 mfv:focus:ring-indigo-500 mfv:focus:outline-none mfv:disabled:opacity-60 mfv:dark:bg-slate-950/50 mfv:dark:ring-white/15;
+  }
+  .mfv-input[aria-invalid='true'] {
+    @apply mfv:ring-rose-500 mfv:focus:ring-rose-500;
+  }
+  .mfv-error {
+    @apply mfv:text-xs mfv:text-rose-600 mfv:dark:text-rose-400;
+  }
+}

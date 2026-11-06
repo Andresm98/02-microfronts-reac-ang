@@ -1,0 +1,62 @@
+name: back-ventas
+
+services:
+  db-ventas:
+    image: mongo:8
+    container_name: db-ventas
+    environment:
+      MONGO_INITDB_DATABASE: ventas
+    ports:
+      - "27017:27017"
+    volumes:
+      - db-ventas-data:/data/db
+      - ./db/init-mongo.js:/docker-entrypoint-initdb.d/01-init-mongo.js:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks: [mf-net]
+    restart: unless-stopped
+
+  back-ventas:
+    build:
+      context: .
+    image: mf/back-ventas:latest
+    container_name: back-ventas
+    environment:
+      PORT: "3002"
+      MONGO_URL: mongodb://db-ventas:27017
+      MONGO_DB: ventas
+      CORS_ORIGINS: http://localhost:5000,http://localhost:5001,http://localhost:5002
+    ports:
+      - "3002:3002"
+    depends_on:
+      db-ventas:
+        condition: service_healthy
+    networks: [mf-net]
+    restart: unless-stopped
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://db-ventas:27017/
+      ME_CONFIG_BASICAUTH: "false"
+      ME_CONFIG_BASICAUTH_ENABLED: "false"
+    ports:
+      - "8081:8081"
+    depends_on:
+      db-ventas:
+        condition: service_healthy
+    networks: [mf-net]
+    restart: unless-stopped
+
+volumes:
+  db-ventas-data:
+    name: mf-db-ventas-data
+
+networks:
+  mf-net:
+    name: mf-net

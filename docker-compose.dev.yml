@@ -1,0 +1,14 @@
+# ⚠ SÓLO DESARROLLO: levanta todo el ecosistema en una máquina para trabajar/probar en local.
+# En producción cada pieza (shell, mf-*, back-*) se despliega por separado con el
+# docker-compose.yml de su propia carpeta (o su pipeline), con su propio ciclo de vida.
+#
+# Uso recomendado:  ./dev.ps1 up   (Windows)   |   ./dev.sh up   (bash)
+# Manual:           docker compose -f docker-compose.dev.yml up -d --build
+name: microfronts
+
+include:
+  - path: back-clientes/docker-compose.yml
+  - path: back-ventas/docker-compose.yml
+  - path: mf-clientes/docker-compose.yml
+  - path: mf-ventas/docker-compose.yml
+  - path: shell/docker-compose.yml

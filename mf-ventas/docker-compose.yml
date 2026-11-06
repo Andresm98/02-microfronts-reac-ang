@@ -1,0 +1,19 @@
+name: mf-ventas
+
+services:
+  mf-ventas:
+    build:
+      context: .
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:3002}
+        VITE_CLIENTES_API_URL: ${VITE_CLIENTES_API_URL:-http://localhost:3001}
+    image: mf/mf-ventas:latest
+    container_name: mf-ventas
+    ports:
+      - "5002:80"
+    networks: [mf-net]
+    restart: unless-stopped
+
+networks:
+  mf-net:
+    name: mf-net

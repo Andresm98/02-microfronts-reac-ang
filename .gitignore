@@ -1,0 +1,18 @@
+node_modules/
+dist/
+build/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+npm-debug.log*
+.vite/
+.cache/
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+.idea/
+
+# Estado del script de desarrollo (./dev.sh local)
+.dev/

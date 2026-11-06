@@ -1,0 +1,19 @@
+name: shell
+
+services:
+  shell:
+    build:
+      context: .
+      args:
+        VITE_MF_CLIENTES_URL: ${VITE_MF_CLIENTES_URL:-http://localhost:5001/remoteEntry.js}
+        VITE_MF_VENTAS_URL: ${VITE_MF_VENTAS_URL:-http://localhost:5002/remoteEntry.js}
+    image: mf/shell:latest
+    container_name: shell
+    ports:
+      - "5000:80"
+    networks: [mf-net]
+    restart: unless-stopped
+
+networks:
+  mf-net:
+    name: mf-net
